@@ -1,6 +1,5 @@
 <?php
 
-
 namespace app\validate;
 
 use think\Validate;
@@ -8,8 +7,9 @@ use think\Validate;
 class BaseValidate extends Validate
 {
     /**
-     * @param string $scene
-     * @return array
+     * @param string $callback 回调函数,可以对获取的数据进一步处理,最后将数据return即可
+     * @param string $scene 使用验证的场景,为空则获取全部验证字段值
+     * @return array 返回所需的表单数据
      * Description 获取表单数据
      */
     public function getData($scene = '', $callback = '')
@@ -31,9 +31,9 @@ class BaseValidate extends Validate
     }
 
     /**
-     * @param $data
-     * @param $field
-     * @return bool
+     * @param $data 验证字段的值
+     * @param $field 要验证表的字段名称
+     * @return bool 不唯一则返回false
      * Description 验证字段是否唯一
      */
     protected function uniquer($data, $field){
@@ -48,9 +48,9 @@ class BaseValidate extends Validate
     }
 
     /**
-     * @param $data
-     * @param $params
-     * @return bool
+     * @param $data 验证字段的值
+     * @param $params 传递的参数,每个参数使用","隔开
+     * @return bool 不存在返回false
      * Description 验证字段是否存在于莫个表的字段中
      */
     protected function inScope($data, $params){
@@ -59,6 +59,12 @@ class BaseValidate extends Validate
         return in_array($data,array_column($arr, $params[1]));
     }
 
+    /**
+     * @param $method 方法名称
+     * @param $params 参数
+     * @return mixed 执行结果
+     * Description  魔术方法,可以将本类中相关的数据库获取数据方法映射到数据库Model上
+     */
     public function __call($method, $params)
     {
         $way = substr($method, 0, 3);
