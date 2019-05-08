@@ -51,7 +51,7 @@ class BaseValidate extends Validate
      * @param $data 验证字段的值
      * @param $params 传递的参数,每个参数使用","隔开
      * @return bool 不存在返回false
-     * Description 验证字段是否存在于莫个表的字段中
+     * Description 验证字段是否存在于某个表的字段中
      */
     protected function inScope($data, $params){
         $params = explode(',', $params);
